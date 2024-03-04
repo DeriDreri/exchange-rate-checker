@@ -1,0 +1,31 @@
+# YAML file respnsible for conifguring currencies 
+#
+# To start using the checker:
+# 1.  Enter your API key from "api.freecurrencyapi.com" as "key" attribute
+# 2.  Specify list of "requests", example shown bellow
+# 3.  For each base currency you want to check you need to create a new request as shown bellow
+#     At 4th March 2024 FreeCurrencyApi allows for 10 requets per minute, using more is an undefied behaviour
+# 4.  Specify list of currencies for each request via "name" attribute and optional "alarm" attribute 
+#     Scripts should be ready to handle lack of "alarm" attribute
+#
+key: ENTER YOUR KEY 
+requests:
+-
+  baseCurrency: USD
+  currencies:
+    - 
+      name: USD
+    -
+      name: PLN 
+      alarm: 4.5 
+    -
+      name: EUR 
+-
+  baseCurrency: EUR  
+  currencies:
+    - 
+      name: USD
+    -
+      name: PLN 
+    -
+      name: EUR 
