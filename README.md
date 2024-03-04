@@ -1,13 +1,24 @@
 # exchange-rate-checker
 Python scripts meant to provide an automatic currencies check via FreeCurrencyAPI. The script support alarms for minimal exchange values to raise an alarm for.
 
-## How to use
+## Requirments 
+- Python3.x with pip installed
+- Requests and PyYaml packages
+- FreecurrencyAPI key
+
+### Install the packages
+```
+python3 -m pip install pyyaml requests
+```
+
 ### Get your FreecurrencyAPI key
 Go to FreecurrencyAPI and quickly register for free to get your key
 ```
 https://freecurrencyapi.com/
 ```
-At 4th March 2024 the API supports only 10 requests per minute but 5,000 requests per month. As the script was meant to be used as a daily chron job on a private Linux server, this should be more than needed. 
+As of 4th March 2024 the API supports only 10 requests per minute but 5,000 requests per month. As the script was meant to be used as a daily chron job on a private Linux server, this should be more than needed. 
+  
+## How to use
 
 ### Configure requests
 Go to config.yaml and follow the instructions in first line to configure the requests and alarm you desire
