@@ -39,10 +39,16 @@ def check() -> str:
 
     data = load(open("config.yaml", 'r'), Loader=Loader)
     key = data["key"]
+    if key == "ENTER YOUR KEY":
+        return "You haven't included your Freecurrency API key in config.yaml file\n"
 
     for request in data["requests"]:
-        response = requests.get(createApiString(key, request)).json()["data"]
-        toReturn += analyzeApiResponse(request, response)
+        response = requests.get(createApiString(key, request))
+        if not response.ok:
+            toReturn += "HTTP request error for {baseCurrency} request\n".format(baseCurrency = request["baseCurrency"])
+            continue
+        responseData = response.json()["data"]
+        toReturn += analyzeApiResponse(request, responseData)
         # print(createApiString(key, request))
     
     return toReturn
@@ -50,4 +56,4 @@ def check() -> str:
 if __name__ == "__main__":
     alarms = check()
     if alarms != "":
-        print(alarms)
+        print(alarms, end='')
