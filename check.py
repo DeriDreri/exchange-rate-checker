@@ -16,10 +16,12 @@ def createApiString(key: str, requestMap: dict) -> str:
     
     return toReturn
 
-def alarm(baseCurrency, currency, value):
-    print("Alarm! You can buy {amount} of {currency} for {baseCurrency}".format(amount=value, baseCurrency=baseCurrency, currency=currency))
+def alarm(baseCurrency, currency, value) -> str:
+    return "Alarm! You can buy {amount} of {currency} for {baseCurrency}\n".format(amount=value, baseCurrency=baseCurrency, currency=currency)
 
-def analyzeApiResponse(request: dict, response: dict):
+def analyzeApiResponse(request: dict, response: dict) -> str:
+    toReturn = ""
+
     for currency in request["currencies"]:
         if "alarm" not in currency: 
             continue
@@ -28,16 +30,24 @@ def analyzeApiResponse(request: dict, response: dict):
         currencyValue = float(response[currency["name"]])
 
         if alarmTreshold < currencyValue:
-            alarm(request["baseCurrency"], currency["name"], currencyValue)
+            toReturn += alarm(request["baseCurrency"], currency["name"], currencyValue)
 
-def main():
+    return toReturn
+
+def check() -> str:
+    toReturn = ""
+
     data = load(open("config.yaml", 'r'), Loader=Loader)
     key = data["key"]
 
     for request in data["requests"]:
         response = requests.get(createApiString(key, request)).json()["data"]
-        analyzeApiResponse(request, response)
+        toReturn += analyzeApiResponse(request, response)
         # print(createApiString(key, request))
+    
+    return toReturn
 
 if __name__ == "__main__":
-    main()
+    alarms = check()
+    if alarms != "":
+        print(alarms)
