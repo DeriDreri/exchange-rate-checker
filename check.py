@@ -1,5 +1,7 @@
 import requests
 from yaml import load, dump
+from os.path import exists
+
 try:
     from yaml import CLoader as Loader, CDumper as Dumper
 except ImportError:
@@ -34,10 +36,10 @@ def analyzeApiResponse(request: dict, response: dict) -> str:
 
     return toReturn
 
-def check() -> str:
+def check(configPath) -> str:
     toReturn = ""
 
-    data = load(open("config.yaml", 'r'), Loader=Loader)
+    data = load(open(configPath, 'r'), Loader=Loader)
     key = data["key"]
     if key == "ENTER YOUR KEY":
         return "You haven't included your Freecurrency API key in config.yaml file\n"
@@ -54,6 +56,6 @@ def check() -> str:
     return toReturn
 
 if __name__ == "__main__":
-    alarms = check()
+    alarms = check("my-config.yaml") if exists("my-config.yaml") else check("config.yaml")
     if alarms != "":
         print(alarms, end='')
